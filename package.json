@@ -1,0 +1,35 @@
+{
+  "name": "hoodie-camp-tutorial",
+  "description": "Hoodie Store & Account Tutorial for latest Hoodie Camp release",
+  "author": "The Hoodie Community | http://hood.ie/",
+  "bugs": {
+    "url": "https://github.com/hoodiehq/hoodie-camp-tutorial/issues"
+  },
+  "engines": {
+    "node": ">=4",
+    "npm": ">=3"
+  },
+  "homepage": "https://github.com/hoodiehq/hoodie-camp-tutorial",
+  "keywords": [
+    "hoodie",
+    "tutorial"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoodiehq/hoodie-camp-tutorial.git"
+  },
+  "scripts": {
+    "start": "hoodie"
+  },
+  "dependencies": {
+    "hoodie": "git://github.com/hoodiehq/hoodie#tent-pouchdb"
+  },
+  "frontend-test-setup": {
+    "server": {
+      "cmd": "hoodie --loglevel=silly --inMemory=true",
+      "host": "127.0.0.1",
+      "port": 8080
+    }
+  }
+}
