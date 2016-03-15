@@ -20,6 +20,7 @@
     "url": "https://github.com/hoodiehq/hoodie-camp-tutorial.git"
   },
   "scripts": {
+    "test": "exit 0",
     "start": "hoodie"
   },
   "dependencies": {

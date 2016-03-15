@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+language: node_js
+node_js:
+  - 5
+notifications:
+  email: false
+before_install:
+  - docker version
+  - docker build -t hoodiehq/hoodie-camp-tutorial .
+  - npm prune
+deploy:
+- provider: script
+  script: docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker push hoodiehq/hoodie-camp-tutorial
+  on:
+    branch: master
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
