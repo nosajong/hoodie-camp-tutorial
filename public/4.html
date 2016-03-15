@@ -29,112 +29,59 @@
       </div>
 
       <div class="content">
-        <h2>Dynamic adding / changing / removing</h2>
+        <h2>Storing and finding data</h2>
 
-        <p>Below is the same list you have seen in <a href="/3.html">part 3</a>.</p>
+        <p>This time, we store your favorite color with Hoodie. And on page load, we load the last one you added.</p>
 
-        <ul class="colorList"></ul>
+        <form id="formColor">
+          <p>
+            <input class="form-control" placeholder="e.g. green">
+          </p>
+          <p>
+            <button type="submit" class="btn btn-primary form-control">submit</button>
+          </p>
+        </form>
 
-        This time, we make it more dynamic by listening to events,
-        so we can re-use some code. At the same time, this will
-        work out of the box once changes come from the server.
+        When you click submit, this is what happens:
 
 <script>
-var lastColorId;
-function addNewColorToList(color) {
-  $('.colorList').prepend('<li data-id="'+color.id+'">'+color.name+' (id: '+color.id+')</li>')
-  $(document.body).css('background', color.name)
-  lastColorId = color.id;
-}
-function removeColorFromList(color) {
-  $('.colorList').find('[data-id="'+color.id+'"]').remove();
-}
-function updateColorOnList(color) {
-  $('.colorList').find('[data-id="'+color.id+'"]').text(color.name+' (id: '+color.id+')');
-  if (color.id === lastColorId) {
-    $(document.body).css('background', color.name)
-  }
-}
+$('#formColor').submit(function(event) {
+  // prevent page reload
+  event.preventDefault();
 
-// when entries in the store change (add, delete, update)
-// execute the specific function
-hoodie.store.on('add', addNewColorToList);
-hoodie.store.on('remove', removeColorFromList);
-hoodie.store.on('update', updateColorOnList);
+  var color = $('#formColor input').val();
+  $(document.body).css('background', color);
+
+  // save the new color with Hoodie
+  hoodie.store.add({
+    name: color
+  });
+});
 
 // when the site loads in the browser,
 // load all previously saved colors from hoodie
-// and set the last one as the background color
-$(function() {
-  hoodie.store.findAll().then(function(colors) {
-    if (colors.length === 0) {
-      $('.colorList').replaceWith('<hr><p>Looks like you did not add colors yet, go back to <a href="/2.html">step two</a>.</p><hr>')
-    }
-    colors.sort(byCreatedAt).forEach(addNewColorToList);
-  })
+// order dem descending by the time they were created
+// and set the last one as the background color and input value
+hoodie.store.findAll().then(function(colors) {
+  colors = colors.sort(byCreatedAt);
+
+  var lastColor = colors.shift();
+  if (!lastColor) return;
+
+  $('#formColor input').val(lastColor.name);
+  $(document.body).css('background', lastColor.name);
 })
 </script>
 
         <p>
-          This time we left out the remove button, because
-          we will do it by hand.
-        </p>
-
-        <h3>Add new color</h3>
-
-        <ul class="colorList"></ul>
-
-<pre><code class="language-javascript">hoodie.store.add('color', {name: prompt('Enter color')})</code></pre>
-
-        <p>
-          Open your browser console (If you don't know what that is, please ask :).
-          If you're to lazy, you can run the code above by hitting this button:
+          Mission accomplished. Colors get stored and loaded again.
+          And the best thing: the colors are stored in your browser. You can
+          turn off your wifi connection, it will still work.
         </p>
 
         <p>
-          <button class="btn btn-primary" onclick="hoodie.store.add({name: prompt('Enter color')})">add color</button>
-        </p>
-
-        <h3>Remove all colors</h3>
-
-        <ul class="colorList"></ul>
-
-<pre><code class="language-javascript">hoodie.store('color).removeAll();</code></pre>
-
-        <p>
-          <button class="btn btn-primary" onclick="hoodie.store.removeAll();">remove all colors</button>
-        </p>
-
-        <h3>Update a color</h3>
-
-        <ul class="colorList"></ul>
-
-        <p>
-          To update an existing color, copy one of the IDs above
-          then run the code:
-        </p>
-
-<pre><code class="language-javascript">hoodie.store.update(prompt('id'), {name: prompt('color')} )</code></pre>
-
-        <p>
-          <button class="btn btn-primary" onclick="hoodie.store.update(prompt('id'), {name: prompt('color')} );">update color</button>
-        </p>
-
-        <h3>Do it yourself!</h3>
-
-        <p>
-          Open the browser console and experiment. Add new colors,
-          update them all at once using <code>hoodie.store.updateAll({name: 'green'})</code>,
-          or remove only a single color using <code>hoodie.store.remove(prompt('id'))</code>.
-        </p>
-
-        <p>
-          That's all you need to know about <code>hoodie.store</code>. The nice thing
-          is, if you use accounts, all your objects and changes get automatically synchronized,
-          as long as you listen to the events, you are all set for sync!
-        </p>
-        <p>
-          And that is exactly what we are going to learn in the <a href="5.html">next part</a>.
+          Next up: show a list of all colors, and change them. All
+          that and more in the third part of the tutorial.
         </p>
       </div>
 

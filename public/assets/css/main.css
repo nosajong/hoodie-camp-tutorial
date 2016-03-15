@@ -2,8 +2,11 @@
    Hoodie Sign In / Sign Up / Sign out stylings
    ========================================================================== */
 
-body {
+html {
   background: url('../img/pattern_130.gif');
+}
+body {
+  background: transparent;
 }
 
 .container {
@@ -62,4 +65,23 @@ body {
   border-top: 1px solid #ddd;
   padding-top: 10px;
   margin-top: 50px;
+}
+
+.service-worker {
+  display: none;
+}
+.service-worker.loading {
+  display: block;
+}
+[data-service-worker="ready"] .service-worker.ready {
+  display: block;
+}
+[data-service-worker="error"] .service-worker.error {
+  display: block;
+}
+
+[data-service-worker="not-supported"] .service-worker.loading,
+[data-service-worker="error"] .service-worker.loading,
+[data-service-worker="ready"] .service-worker.loading {
+  display: none;
 }

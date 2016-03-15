@@ -29,62 +29,64 @@
       </div>
 
       <div class="content">
-        <h2>Creating a user account</h2>
+        <h2>Finding and removing colors</h2>
 
-        <p>
-          You are currently <var class="status"></var>.
-          The code below shows how to find out.
-        </p>
+        <p>The list below shows all colors that you added in <a href="/4.html">the last step</a>.</p>
 
-        <p class="signed-in-note" style="display:none">
-          Please sign out before you proceed:
-          <code>hoodie.account.signOut()</code>.
-          Then reload the page.
-        </p>
+        <ul class="colorList"></ul>
+
+        Here is the code that populates the list above
 
 <script>
-if (hoodie.account.isSignedIn()) {
-  $('.status').text('signed in as ' + hoodie.account.username)
-  $('.signed-in-note').show()
-} else {
-  $('.status').text('signed out')
-}
+// when the site loads in the browser,
+// load all previously saved colors from hoodie
+// and set the last one as the background color
+hoodie.store.findAll().then(function(colors) {
+  var $list = $('.colorList');
+
+  // check if color entries exist
+  if (colors.length === 0) {
+    $list.replaceWith('<hr><p>Looks like you did not add colors yet, go back to <a href="/4.html">the last step</a>.</p><hr>');
+    return;
+  }
+
+  // add all saved colors to the list
+  colors = colors.sort(byCreatedAt)
+  colors.forEach(function(color) {
+    $list.append('<li><span>'+color.name+'</span> <a style="color: #c00; font-weight: bold;" href="#" data-id="'+color.id+'">×</a></li>');
+  });
+
+  // set to current background color
+  if (colors.length) {
+    $(document.body).css('background', colors[0].name)
+  }
+})
+
+// delete a color when the "x"-Button is pressed
+$('.colorList').on('click', 'a', function(event) {
+  // prevent page reload
+  event.preventDefault();
+
+  var id = $(event.target).data('id');
+  if (!id) return;
+  $(event.target).closest('li').remove();
+  hoodie.store.remove(id);
+
+  // update current color
+  if ($('.colorList li').length) {
+    $(document.body).css('background', $('.colorList li span').eq(0).text())
+  } else {
+    $(document.body).css('background', 'transparent')
+  }
+})
 </script>
 
         <p>
-          Let's create a new account. Guess what, it's just one
-          line of code :)
-        </p>
-
-<script>
-function signUp() {
-  var username = prompt('username');
-  var password = prompt('password');
-  hoodie.account.signUp({
-    username: username,
-    password: password
-  })
-    .then(function() {
-      return hoodie.account.signIn({
-        username: username,
-        password: password
-      });
-    })
-    .then(function() {
-      alert("Good Job! On to the next slide!");
-    })
-    .catch(function(errror) {
-      alert('Ooops, something went wrong: ' + error.message);
-    })
-}
-</script>
-        <p>
-          <button class="btn btn-primary" onclick="signUp()">run <code>signUp()</code></button>
-        </p>
-
-        <p>
-          In <a href="/6.html">the next step</a>, we build a sign in form and a sign out button.
-          So make sure you remember your username and password :)
+          Now you learned how you can load and display all
+          objects of one type, in this case "color". You also
+          learned how to remove a single object. In the next
+          part of the tutorial, we will make it more dynamic,
+          and also write own code: <a href="/6.html">Part 6</a>.
         </p>
       </div>
 

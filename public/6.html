@@ -29,78 +29,116 @@
       </div>
 
       <div class="content">
-        <h2>Sign in, sign out, and account events</h2>
+        <h2>Dynamic adding / changing / removing</h2>
 
-        <div class="show-when-signed-in well" style="display:none;">
-          <form id="formSignIn" action="">
-            <p>
-              <input id="inputUsername" class="form-control" placeholder="username">
-            </p>
-            <p>
-              <input id="inputPassword"  type="password" class="form-control" placeholder="password">
-            </p>
-            <p>
-              <button type="submit" class="btn btn-primary">sign in</button>
-            </p>
-          </form>
-        </div>
+        <p>Below is the same list you have seen in <a href="/5.html">part 5</a>.</p>
 
-        <div class="show-when-signed-out well" style="display:none;">
-          <p>
-            <button onclick="hoodie.account.signOut()" class="btn btn-primary">run <code>hoodie.account.signOut()</code></button>
-          </p>
-        </div>
+        <ul class="colorList"></ul>
 
-        <p>
-          The code below shows and hides the the sign in form
-          and the sign out button respectively, by checking
-          if you are signend in on page load, and listening
-          to user events
-        </p>
+        This time, we make it more dynamic by listening to events,
+        so we can re-use some code. At the same time, this will
+        work out of the box once changes come from the server.
 
 <script>
-if (hoodie.account.isSignedIn()) {
-  showSignOutButton()
-} else {
-  showSignInForm()
+var lastColorId;
+function addNewColorToList(color) {
+  $('.colorList').prepend('<li data-id="'+color.id+'">'+color.name+' (id: '+color.id+')</li>');
+  $(document.body).css('background', color.name);
+  lastColorId = color.id;
+}
+function removeColorFromList(color) {
+  $('.colorList').find('[data-id="'+color.id+'"]').remove();
+  if ($('.colorList li').length === 0)  {
+    $(document.body).css('background', 'transparent');
+  }
+}
+function updateColorOnList(color) {
+  $('.colorList').find('[data-id="'+color.id+'"]').text(color.name+' (id: '+color.id+')');
+  if (color.id === lastColorId) {
+    $(document.body).css('background', color.name);
+  }
 }
 
-hoodie.account.on('signin', showSignOutButton)
-hoodie.account.on('signout', showSignInForm)
+// when entries in the store change (add, delete, update)
+// execute the specific function
+hoodie.store.on('add', addNewColorToList);
+hoodie.store.on('remove', removeColorFromList);
+hoodie.store.on('update', updateColorOnList);
 
-// handle form submit
-$('#formSignIn').submit(function(event) {
-  // prevent page reload
-  event.preventDefault();
-
-  var username = $('#inputUsername').val();
-  var password = $('#inputPassword').val();
-
-  hoodie.account.signIn({
-    username: username,
-    password: password
+// when the site loads in the browser,
+// load all previously saved colors from hoodie
+// and set the last one as the background color
+$(function() {
+  hoodie.store.findAll().then(function(colors) {
+    if (colors.length === 0) {
+      $('.colorList').replaceWith('<hr><p>Looks like you did not add colors yet, go back to <a href="/4.html">step four</a>.</p><hr>');
+    }
+    colors.sort(byCreatedAt).forEach(addNewColorToList);
   })
-    .then(function () {
-      // clear input fields
-      $('#inputUsername, #inputPassword').val('');
-    })
-    .catch(function(error) {
-      alert('ooops: ' + error.message);
-    })
 })
-
-
-function showSignInForm() {
-  $('.show-when-signed-in').show()
-  $('.show-when-signed-out').hide()
-}
-function showSignOutButton() {
-  $('.show-when-signed-out').show()
-  $('.show-when-signed-in').hide()
-}
 </script>
 
-        <p>Outro ...</p>
+        <p>
+          This time we left out the remove button, because
+          we will do it by hand.
+        </p>
+
+        <h3>Add new color</h3>
+
+        <ul class="colorList"></ul>
+
+<pre><code class="language-javascript">hoodie.store.add({name: prompt('Enter color')})</code></pre>
+
+        <p>
+          Open your browser console (If you don't know what that is, please ask :).
+          If you're to lazy, you can run the code above by hitting this button:
+        </p>
+
+        <p>
+          <button class="btn btn-primary" onclick="hoodie.store.add({name: prompt('Enter color')})">add color</button>
+        </p>
+
+        <h3>Remove all colors</h3>
+
+        <ul class="colorList"></ul>
+
+<pre><code class="language-javascript">hoodie.store('color).removeAll();</code></pre>
+
+        <p>
+          <button class="btn btn-primary" onclick="hoodie.store.removeAll();">remove all colors</button>
+        </p>
+
+        <h3>Update a color</h3>
+
+        <ul class="colorList"></ul>
+
+        <p>
+          To update an existing color, copy one of the IDs above
+          then run the code:
+        </p>
+
+<pre><code class="language-javascript">hoodie.store.update(prompt('id'), {name: prompt('color')} )</code></pre>
+
+        <p>
+          <button class="btn btn-primary" onclick="hoodie.store.update(prompt('id'), {name: prompt('color')} );">update color</button>
+        </p>
+
+        <h3>Do it yourself!</h3>
+
+        <p>
+          Open the browser console and experiment. Add new colors,
+          update them all at once using <code>hoodie.store.updateAll({name: 'green'})</code>,
+          or remove only a single color using <code>hoodie.store.remove(prompt('id'))</code>.
+        </p>
+
+        <p>
+          That's all you need to know about <code>hoodie.store</code>. The nice thing
+          is, if you use accounts, all your objects and changes get automatically synchronized,
+          as long as you listen to the events, you are all set for sync!
+        </p>
+        <p>
+          And that is exactly what we are going to learn in the <a href="7.html">next part</a>.
+        </p>
       </div>
 
       <footer class="copy">

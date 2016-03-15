@@ -29,54 +29,30 @@
       </div>
 
       <div class="content">
-        <h2>Finding and removing colors</h2>
+        <h2>What's your favourite color?</h2>
 
-        <p>The list below shows all colors that you added in <a href="/2.html">step two</a>.</p>
+        <form id="formColor">
+          <p>
+            <input class="form-control" placeholder="e.g. green">
+          </p>
+          <p>
+            <button type="submit" class="btn btn-primary form-control">submit</button>
+          </p>
+        </form>
 
-        <ul class="colorList"></ul>
-
-        Here is the code that populates the list above
+        When you click submit, this is what happens:
 
 <script>
+$('#formColor').submit(function(event) {
+  var color = $('#formColor input').val();
+  $(document.body).css('background', color);
 
-// when the site loads in the browser,
-// load all previously saved colors from hoodie
-// and set the last one as the background color
-hoodie.store.findAll().then(function(colors) {
-  var $list = $('.colorList');
-
-  // check if color entries exist
-  if (colors.length === 0) {
-    $list.replaceWith('<hr><p>Looks like you did not add colors yet, go back to <a href="/2.html">step two</a>.</p><hr>')
-    return
-  }
-
-  // add all saved colors to the list
-  colors.sort(byCreatedAt).forEach(function(color) {
-
-    $list.append('<li>'+color.name+' <a style="color: #c00; font-weight: bold;" href="#" data-id="'+color.id+'">×</a></li>');
-  });
-})
-
-// delete a color when the "x"-Button is pressed
-$('.colorList').on('click', 'a', function(event) {
-  // prevent page reload
+  // prevent the site to reload in the browser
   event.preventDefault();
-
-  var id = $(event.target).data('id');
-  if (!id) return;
-  $(event.target).closest('li').remove();
-  hoodie.store.remove(id);
 })
 </script>
 
-        <p>
-          Now you learned how you can load and display all
-          objects of one type, in this case "color". You also
-          learned how to remove a single object. In the next
-          part of the tutorial, we will make it more dynamic,
-          and also write own code: <a href="/4.html">Part 4</a>.
-        </p>
+        <p>If you reload the page &hellip; it is gone. Let's change that in the next part of the tutorial.</p>
       </div>
 
       <footer class="copy">

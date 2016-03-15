@@ -29,32 +29,65 @@
       </div>
 
       <div class="content">
+
         <h2>Hey there!</h2>
 
-        <p>Let's jump right in. What's your favourite color?</p>
-
-        <form id="formColor">
-          <p>
-            <input class="form-control" placeholder="e.g. green">
-          </p>
-          <p>
-            <button type="submit" class="btn btn-primary form-control">submit</button>
-          </p>
-        </form>
-
-        When you click submit, this is what happens:
+        <p>
+          Let’s jump right in: this entire tutorial is being downloaded with
+          the code below. Your ServiceWorker status is:
+          <strong class="service-worker-status"></strong>
+        </p>
 
 <script>
-$('#formColor').submit(function(event) {
-  var color = $('#formColor input').val();
-  $(document.body).css('background', color);
 
-  // prevent the site to reload in the browser
-  event.preventDefault();
-})
+  function setState(state) {
+    if (state === 'activated') {
+      $('.service-worker-status').text('ready!');
+    } else {
+      $('.service-worker-status').text(state);
+    }
+  }
+
+  if ('serviceWorker' in navigator) {
+    // Override the default scope of '/' with '.', so that the registration applies
+    // to the current directory and everything underneath it.
+    navigator.serviceWorker.register('sw.js', {
+      scope: '.'
+    })
+      .then(function(registration) {
+        var serviceWorker = registration.installing || registration.waiting || registration.active;
+
+        if (serviceWorker) {
+          setState(serviceWorker.state);
+          serviceWorker.addEventListener('statechange', function(e) {
+            setState(e.target.state);
+          });
+        }
+      }).catch(function(error) {
+        // Something went wrong during registration. The sw.js file
+        // might be unavailable or contain a syntax error.
+        $('.service-worker-status').text('error! :(');
+      });
+  } else {
+    // The current browser doesn't support service workers.
+    $('.service-worker-status').text('not available :(');
+  }
 </script>
 
-        <p>If you reload the page &hellip; it is gone. Let's change that in the <a href="2.html">second part of the tutorial</a>.</p>
+        <p>
+          ServiceWorker is currently supported in Chrome &amp; Firefox, and
+          both <a href="http://status.modern.ie/serviceworker">Edge</a> and
+          <a href="https://webkit.org/status/#specification-service-workers">WebKit</a>
+          are working on it.
+        </p>
+
+        <p>
+          Don’t worry if your browser does not support ServiceWorker, it only
+          means that you can’t reload the page without an internet connection.
+          You can follow the tutorial nevertheless, because Hoodie will help
+          you with storing data offline, and that is usefull with and without
+          a (good) internet connection.
+        </p>
       </div>
 
       <footer class="copy">
