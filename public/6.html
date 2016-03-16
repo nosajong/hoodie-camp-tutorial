@@ -29,15 +29,15 @@
       </div>
 
       <div class="content">
-        <h2>Dynamic adding / changing / removing</h2>
+        <h2>Dynamic adding / changing / removing of data</h2>
 
-        <p>Below is the same list you have seen in <a href="/5.html">part 5</a>.</p>
+        <p>Below is the same list you've seen in <a href="/5.html">part 5</a>.</p>
 
         <ul class="colorList"></ul>
 
-        This time, we make it more dynamic by listening to events,
+        This time, we'll make it more dynamic by listening to events,
         so we can re-use some code. At the same time, this will
-        work out of the box once changes come from the server.
+        work out of the box in case we have changes coming in from the server. This will save us some work later, and give us cross-device syncing for free.
 
 <script>
 var lastColorId;
@@ -49,18 +49,18 @@ function addNewColorToList(color) {
 function removeColorFromList(color) {
   $('.colorList').find('[data-id="'+color.id+'"]').remove();
   if ($('.colorList li').length === 0)  {
-    $(document.body).css('background', 'transparent');
+    $('html').css('background', 'transparent');
   }
 }
 function updateColorOnList(color) {
   $('.colorList').find('[data-id="'+color.id+'"]').text(color.name+' (id: '+color.id+')');
   if (color.id === lastColorId) {
-    $(document.body).css('background', color.name);
+    $('html').css('background', color.name);
   }
 }
 
 // when entries in the store change (add, delete, update)
-// execute the specific function
+// run the corresponding function
 hoodie.store.on('add', addNewColorToList);
 hoodie.store.on('remove', removeColorFromList);
 hoodie.store.on('update', updateColorOnList);
@@ -80,7 +80,7 @@ $(function() {
 
         <p>
           This time we left out the remove button, because
-          we will do it by hand.
+          we'll do it by hand!
         </p>
 
         <h3>Add new color</h3>
@@ -90,8 +90,7 @@ $(function() {
 <pre><code class="language-javascript">hoodie.store.add({name: prompt('Enter color')})</code></pre>
 
         <p>
-          Open your browser console (If you don't know what that is, please ask :).
-          If you're to lazy, you can run the code above by hitting this button:
+          Open your browser console and run the line above. Or, if you're in a hurry, you can just run it hitting the button underneath each line:
         </p>
 
         <p>
@@ -113,8 +112,8 @@ $(function() {
         <ul class="colorList"></ul>
 
         <p>
-          To update an existing color, copy one of the IDs above
-          then run the code:
+          To update an existing color, copy one of the IDs above,
+          then run this code:
         </p>
 
 <pre><code class="language-javascript">hoodie.store.update(prompt('id'), {name: prompt('color')} )</code></pre>
@@ -132,9 +131,7 @@ $(function() {
         </p>
 
         <p>
-          That's all you need to know about <code>hoodie.store</code>. The nice thing
-          is, if you use accounts, all your objects and changes get automatically synchronized,
-          as long as you listen to the events, you are all set for sync!
+          That's all you need to know about <code>hoodie.store</code>. The nice thing about using events like this is that, once you start using accounts, all your objects and changes automatically get synchronized between all of a user's devices.
         </p>
         <p>
           And that is exactly what we are going to learn in the <a href="7.html">next part</a>.
@@ -142,7 +139,7 @@ $(function() {
       </div>
 
       <footer class="copy">
-        <p>&hearts; hood.ie 2014</p>
+        <p>&hearts; hood.ie 2016</p>
       </footer>
     </div> <!-- /.container -->
 

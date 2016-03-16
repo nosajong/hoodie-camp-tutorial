@@ -31,18 +31,18 @@
       <div class="content">
         <h2>Storing and finding data</h2>
 
-        <p>This time, we store your favorite color with Hoodie. And on page load, we load the last one you added.</p>
+        <p>This time, we'll store your favorite colors with Hoodie. And on page load, we'll load the last one you added. Add a few!</p>
 
         <form id="formColor">
           <p>
-            <input class="form-control" placeholder="e.g. green">
+            <input class="form-control" placeholder="e.g. green, blue, gold, pink">
           </p>
           <p>
-            <button type="submit" class="btn btn-primary form-control">submit</button>
+            <button type="submit" class="btn btn-primary form-control">Add color</button>
           </p>
         </form>
 
-        When you click submit, this is what happens:
+        When you click the button, this is what happens:
 
 <script>
 $('#formColor').submit(function(event) {
@@ -50,17 +50,17 @@ $('#formColor').submit(function(event) {
   event.preventDefault();
 
   var color = $('#formColor input').val();
-  $(document.body).css('background', color);
+  $('html').css('background', color);
 
-  // save the new color with Hoodie
+  // But this time, we save the new color with Hoodie
   hoodie.store.add({
     name: color
   });
 });
 
 // when the site loads in the browser,
-// load all previously saved colors from hoodie
-// order dem descending by the time they were created
+// we load all previously saved colors from hoodie
+// order them descending by the time they were created
 // and set the last one as the background color and input value
 hoodie.store.findAll().then(function(colors) {
   colors = colors.sort(byCreatedAt);
@@ -69,24 +69,24 @@ hoodie.store.findAll().then(function(colors) {
   if (!lastColor) return;
 
   $('#formColor input').val(lastColor.name);
-  $(document.body).css('background', lastColor.name);
+  $('html').css('background', lastColor.name);
 })
 </script>
 
         <p>
           Mission accomplished. Colors get stored and loaded again.
           And the best thing: the colors are stored in your browser. You can
-          turn off your wifi connection, it will still work.
+          turn off your wifi connection, it will still work. No errors, no warnings, no different interface. It just works.
         </p>
 
         <p>
-          Next up: show a list of all colors, and change them. All
+          Next up: we'll show a list of all colors, and change them. All
           that and more in the third part of the tutorial.
         </p>
       </div>
 
       <footer class="copy">
-        <p>&hearts; hood.ie 2014</p>
+        <p>&hearts; hood.ie 2016</p>
       </footer>
     </div> <!-- /.container -->
 

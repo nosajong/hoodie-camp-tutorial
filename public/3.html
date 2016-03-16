@@ -33,30 +33,30 @@
 
         <form id="formColor">
           <p>
-            <input class="form-control" placeholder="e.g. green">
+            <input class="form-control" placeholder="e.g. green, blue, gold, pink">
           </p>
           <p>
-            <button type="submit" class="btn btn-primary form-control">submit</button>
+            <button type="submit" class="btn btn-primary form-control">add color</button>
           </p>
         </form>
 
-        When you click submit, this is what happens:
+        When you press the button, this is what happens:
 
 <script>
 $('#formColor').submit(function(event) {
   var color = $('#formColor input').val();
-  $(document.body).css('background', color);
+  $('html').css('background', color);
 
-  // prevent the site to reload in the browser
+  // prevent the site from reloading
   event.preventDefault();
 })
 </script>
 
-        <p>If you reload the page &hellip; it is gone. Let's change that in the next part of the tutorial.</p>
+        <p>If you reload the page &hellip; it's gone. Disappointing! Let's change that in the next part of the tutorial.</p>
       </div>
 
       <footer class="copy">
-        <p>&hearts; hood.ie 2014</p>
+        <p>&hearts; hood.ie 2016</p>
       </footer>
     </div> <!-- /.container -->
 

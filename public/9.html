@@ -31,7 +31,7 @@
       <div class="content">
         <h2>Store &lt;3 Account </h2>
 
-        <p>Now, let's combine it all together.</p>
+        <p>Now, let's combine everything we've seen. By the way, we're now storing colors in your user account, and all the colors you previously added aren't in there. Just add some new ones for now :)</p>
 
         <div class="well">
           <p>
@@ -68,7 +68,7 @@
 
           <form id="formColor">
             <p>
-              <input class="form-control" placeholder="e.g. green">
+              <input class="form-control" placeholder="e.g. green, blue, gold, pink">
             </p>
             <p>
               <button type="submit" class="btn btn-primary form-control">add color</button>
@@ -77,10 +77,7 @@
         </div>
 
         <p>
-          The code below shows and hides the the sign in form
-          and the sign out button respectively, by checking
-          if you are signend in on page load, and listening
-          to user events
+          Here's all the code for handling signin/signout, as well as storing, updating, loading and deleting colors. Plus, it'll all just continue to work when you're offline, and it syncs across all devices and browsers you're logged into!
         </p>
 
 <script>
@@ -175,18 +172,18 @@ function showSignOutButton() {
 
 function addNewColorToList(color) {
   $('.colorList').prepend('<li data-id="'+color.id+'"><span>'+color.name+'</span> (id: '+color.id+') <a style="color: #c00; font-weight: bold;" href="#" data-id="'+color.id+'">×</a></li>');
-  $(document.body).css('background', color.name);
+  $('html').css('background', color.name);
 }
 function removeColorFromList(color) {
   $('.colorList').find('[data-id="'+color.id+'"]').remove();
 }
 function updateColorOnList(color) {
   $('.colorList').find('[data-id="'+color.id+'"]').text(color.name+' (id: '+color.id+')');
-  $(document.body).css('background', $('.colorList li span').eq(0).text())
+  $('html').css('background', $('.colorList li span').eq(0).text())
 }
 function clearColorList() {
   $('.colorList').empty();
-  $(document.body).css('background', 'transparent');
+  $('html').css('background', 'transparent');
 }
 </script>
 
@@ -197,12 +194,12 @@ function clearColorList() {
         <p>
           Want to see something fun? Open this page in another
           browser, sign in with the same account, then add colors.
-          See the magic happening.
+          Watch the magic happen…
         </p>
 
         <p>
           Now turn of your internet connection. Add colors to both browsers.
-          Turn on your internet connection again, wait for a moment.
+          Turn on your internet connection again, and wait a moment.
         </p>
 
         <p>
@@ -210,13 +207,13 @@ function clearColorList() {
         </p>
 
         <p>
-          That was it, hope you like it &lt;3
+          Well, that was it! Hope you like Hoodie &lt;3 And don't forget to tell your friends!
         </p>
 
       </div>
 
       <footer class="copy">
-        <p>&hearts; hood.ie 2014</p>
+        <p>&hearts; hood.ie 2016</p>
       </footer>
     </div> <!-- /.container -->
 
