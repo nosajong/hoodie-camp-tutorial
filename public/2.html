@@ -43,7 +43,7 @@
 
 <script>
 // start checking if server can be reached
-hoodie.connectionStatus.startChecking();
+hoodie.connectionStatus.startChecking({interval: 1000});
 
 // check initial connection status
 if (hoodie.connectionStatus.ok === false) {
