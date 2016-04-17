@@ -24,7 +24,7 @@
     "start": "hoodie"
   },
   "dependencies": {
-    "hoodie": "git://github.com/hoodiehq/hoodie#tent-pouchdb"
+    "hoodie": "git://github.com/hoodiehq/hoodie#tent"
   },
   "frontend-test-setup": {
     "server": {
