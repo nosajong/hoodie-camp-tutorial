@@ -8,7 +8,9 @@ notifications:
   email: false
 before_install:
   - docker version
+  - docker run -d -p 127.0.0.1:5984:5984 klaemo/couchdb:1.6.1
   - docker build -t hoodiehq/hoodie-camp-tutorial .
+  - npm install --global npm@3
   - npm prune
 deploy:
 - provider: script
