@@ -24,13 +24,6 @@
     "start": "hoodie"
   },
   "dependencies": {
-    "hoodie": "^22.0.1"
-  },
-  "frontend-test-setup": {
-    "server": {
-      "cmd": "hoodie --loglevel=silly --inMemory=true",
-      "host": "127.0.0.1",
-      "port": 8080
-    }
+    "hoodie": "^22.2.1"
   }
 }
