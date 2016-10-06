@@ -25,6 +25,8 @@ Once installation is done, you can start the app with
 npm start
 ```
 
+Now open [localhost:8080](http://localhost:8080)
+
 ## License
 
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
