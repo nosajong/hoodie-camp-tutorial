@@ -83,7 +83,7 @@ body {
 .status,
 .connection-status {
   font-size: 1.2em; 
-  border: 1px solid black;
+  border: 1px solid #428bca;
   padding: 0 5px 2px 5px; 
 }
 
