@@ -78,7 +78,10 @@ body {
   text-align: center;
 }
 
-.service-worker-status {
+.service-worker-status,
+.connect-status,
+.status,
+.connection-status {
   font-size: 1.2em; 
   border: 1px solid black;
   padding: 0 3px 0 3px; 
